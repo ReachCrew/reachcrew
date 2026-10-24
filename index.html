@@ -20,7 +20,8 @@
 <form id="reachcrewForm"><input type="hidden" name="subject" value="New ReachCrew inquiry"><input type="hidden" name="from_name" value="ReachCrew Website"><input type="hidden" name="pathway" id="pathwayHidden"><input type="hidden" name="page_url" id="pageUrl"><div class="trap" aria-hidden="true"><label>Leave blank<input type="text" name="botcheck" tabindex="-1" autocomplete="off"></label></div><div class="form-body"><div class="msg" id="formMsg" role="status" aria-live="polite"></div>
 <section class="form-step active" data-step="1"><h3>What would you like to do?</h3><p class="intro">Choose one. We’ll ask only for the details we need.</p><div class="choices"><div class="choice"><input id="business" type="radio" name="interest" value="Business / Employer" required><label for="business"><div><strong>I have something to promote</strong><span>A flyer, event, product, service, or special offer</span></div></label></div><div class="choice"><input id="promotion" type="radio" name="interest" value="Promotion / Campaigns" required><label for="promotion"><div><strong>I want to earn by promoting</strong><span>Share approved content online or help locally</span></div></label></div></div><div class="field"><label for="goal">What do you have in mind? <span class="req">*</span></label><select id="goal" name="goal" required><option value="">Choose one</option><option>Promote a flyer or offer</option><option>Find promotional tasks</option><option>Promote an event</option><option>Promote a product or service</option><option>Share posts or links online</option><option>Distribute flyers locally</option><option>Help with a promotional campaign</option><option>Something else</option></select></div></section>
 <section class="form-step" data-step="2"><h3 id="profileHeading">Tell us about yourself.</h3><p class="intro" id="profileIntro">Share the best way to reach you and a little context.</p><div class="grid"><div class="field"><label for="fullName">Full name <span class="req">*</span></label><input id="fullName" name="full_name" autocomplete="name" required maxlength="120" placeholder="Your first and last name"></div><div class="field"><label for="email">Email address <span class="req">*</span></label><input id="email" name="email" type="email" autocomplete="email" required maxlength="200" placeholder="you@example.com"></div><div class="field"><label for="phone">Phone </label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40" placeholder="Best contact number"></div><div class="field"><label for="location">City / region</label><input id="location" name="location" autocomplete="address-level2" maxlength="120" placeholder="City, region, country"></div><div class="field full"><label for="organization" id="orgLabel">Business or organization (optional)</label><input id="organization" name="organization" maxlength="180" placeholder="Company, brand, or organization"></div><div class="field"><label for="website">Website / profile link (optional)</label><input id="website" name="website" type="url" maxlength="300" placeholder="https://"></div><div class="field"><label for="role" id="roleLabel">Role or professional title</label><input id="role" name="role" maxlength="160" placeholder="e.g. project manager, designer"></div></div></section>
-<section class="form-step" data-step="3"><h3>Let’s get specific.</h3><p class="intro">These details help us understand your timing, requirements, and the next step.</p><div class="grid"><div class="field"><label for="type" id="typeLabel">Opportunity type</label><select id="type" name="opportunity_type"><option value="">Choose one</option></select></div><div class="field"><label for="availability">Availability / timing</label><select id="availability" name="availability"><option value="">Choose timing</option><option>Immediately</option><option>Within 2 weeks</option><option>Within a month</option><option>Flexible</option><option>Planning for later</option></select></div><div class="field full"><label for="skills" id="skillsLabel">Skills, services, or area of interest</label><input id="skills" name="skills_services" maxlength="500" placeholder="Relevant skills, services, or interests"></div><div class="field full"><label for="details" id="detailsLabel">Tell us more <span class="req">*</span></label><textarea id="details" name="details" required maxlength="4000" placeholder="Share your goals, needs, experience, project scope, timing, or anything else we should know."></textarea><small id="detailsHint">Do not include passwords, financial account details, or government ID numbers.</small></div></div><label class="checkline"><input type="checkbox" id="consent" name="contact_consent" value="Yes" required><span>I agree that ReachCrew may use the information I provide to review this inquiry and contact me about it. <span class="req">*</span></span></label></section>
+<section class="form-step" data-step="3"><h3>Let’s get specific.</h3><p class="intro">These details help us understand your timing, requirements, and the next step.</p><div class="grid"><div class="field"><label for="type" id="typeLabel">Opportunity type</label><select id="type" name="opportunity_type"><option value="">Choose one</option></select></div><div class="field"><label for="availability">Availability / timing</label><select id="availability" name="availability"><option value="">Choose timing</option><option>Immediately</option><option>Within 2 weeks</option><option>Within a month</option><option>Flexible</option><option>Planning for later</option></select></div><div class="field full"><label for="skills" id="skillsLabel">Skills, services, or area of interest</label><input id="skills" name="skills_services" maxlength="500" placeholder="Relevant skills, services, or interests"></div><div class="field full"><label for="details" id="detailsLabel">Tell us more <span class="req">*</span></label><textarea id="details" name="details" required maxlength="4000" placeholder="Share your goals, needs, experience, project scope, timing, or anything else we should know."></textarea><small id="detailsHint">Do not include passwords, financial account details, or government ID numbers.</small></div></div><div class="h-captcha" data-captcha="true"></div>
+<label class="checkline"><input type="checkbox" id="consent" name="contact_consent" value="Yes" required><span>I agree that ReachCrew may use the information I provide to review this inquiry and contact me about it. <span class="req">*</span></span></label></section>
 <div class="actions"><button class="btn outline hidden" id="backBtn" type="button">← Back</button><div class="right"><button class="btn primary" id="nextBtn" type="button">Continue →</button><button class="btn primary hidden" id="submitBtn" type="submit">Submit inquiry ↗</button></div></div></div></form></div></div>
 <script>
 // IMPORTANT: Replace this string with the Access Key from your new ReachCrew Web3Forms form.
@@ -41,21 +42,65 @@ function closeForm(){backdrop.classList.remove('open');document.body.style.overf
 function validateStep(){const active=steps.find(s=>+s.dataset.step===step);if(step===1&&!chosen()){showMsg('Choose the pathway that best matches your goal to continue.','error');return false}for(const el of active.querySelectorAll('input[required],select[required],textarea[required]')){if(el.type==='radio')continue;if(!el.checkValidity()){el.reportValidity();el.focus();return false}}return true}
 document.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>openForm(b.dataset.open)));document.getElementById('close').addEventListener('click',closeForm);backdrop.addEventListener('click',e=>{if(e.target===backdrop)closeForm()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&backdrop.classList.contains('open'))closeForm()});document.querySelectorAll('input[name="interest"]').forEach(r=>r.addEventListener('change',()=>{applyConfig();clearMsg()}));nextBtn.addEventListener('click',()=>{clearMsg();if(!validateStep())return;step=Math.min(3,step+1);render()});backBtn.addEventListener('click',()=>{clearMsg();step=Math.max(1,step-1);render()});
 form.addEventListener('submit',async e=>{
-e.preventDefault();
-clearMsg();
+  e.preventDefault();
+  clearMsg();
+  if(!validateStep())return;
 
-// Honeypot: legitimate visitors should leave this hidden field empty.
-const honeypot=form.querySelector('[name="botcheck"]');
-if(honeypot && honeypot.value.trim()!==''){
-  // Do not send suspected automated submissions to Web3Forms.
-  showMsg('Thank you! Your ReachCrew inquiry has been submitted.','success');
-  form.reset();
-  applyConfig();
-  step=1;
-  render();
-  return;
-}
+  // Reject submissions that fill the hidden honeypot field.
+  const honeypot=form.querySelector('[name="botcheck"]');
+  if(honeypot && honeypot.value.trim()){
+    showMsg('Your submission could not be processed. Please try again.','error');
+    return;
+  }
 
-if(!validateStep())return;if(!WEB3FORMS_ACCESS_KEY||WEB3FORMS_ACCESS_KEY.includes('YOUR_REACHCREW')){showMsg('Add your ReachCrew Web3Forms access key in the JavaScript near the bottom of this file before testing submissions.','error');return}submitBtn.disabled=true;submitBtn.textContent='Sending…';const data=new FormData(form);data.set('access_key',WEB3FORMS_ACCESS_KEY);data.set('subject','ReachCrew inquiry — '+(chosen()||'General'));data.set('from_name','ReachCrew Website');data.set('replyto',document.getElementById('email').value);try{const res=await fetch('https://api.web3forms.com/submit',{method:'POST',body:data,headers:{Accept:'application/json'}});const result=await res.json();if(res.ok&&result.success){form.reset();applyConfig();step=1;render();showMsg('Thank you! Your ReachCrew inquiry has been submitted.','success');nextBtn.classList.add('hidden');backBtn.classList.add('hidden');submitBtn.classList.add('hidden');setTimeout(()=>{if(backdrop.classList.contains('open'))closeForm();nextBtn.classList.remove('hidden');backBtn.classList.remove('hidden');submitBtn.classList.remove('hidden');clearMsg()},4500)}else showMsg(result.message||'We could not submit your form. Please try again.','error')}catch(err){showMsg('We could not reach the form service. Check your internet connection and try again.','error')}finally{submitBtn.disabled=false;submitBtn.textContent='Submit inquiry ↗'}});
+  // Require a completed Web3Forms hCaptcha challenge before sending.
+  const captchaResponse=form.querySelector('textarea[name="h-captcha-response"]')?.value.trim();
+  if(!captchaResponse){
+    showMsg('Please complete the security check before submitting.','error');
+    return;
+  }
+
+  if(!WEB3FORMS_ACCESS_KEY||WEB3FORMS_ACCESS_KEY.includes('YOUR_REACHCREW')){
+    showMsg('Add your ReachCrew Web3Forms access key in the JavaScript near the bottom of this file before testing submissions.','error');
+    return;
+  }
+  submitBtn.disabled=true;
+  submitBtn.textContent='Sending…';
+  const data=new FormData(form);
+  data.set('access_key',WEB3FORMS_ACCESS_KEY);
+  data.set('subject','ReachCrew inquiry — '+(chosen()||'General'));
+  data.set('from_name','ReachCrew Website');
+  data.set('replyto',document.getElementById('email').value);
+  try{
+    const res=await fetch('https://api.web3forms.com/submit',{method:'POST',body:data,headers:{Accept:'application/json'}});
+    const result=await res.json();
+    if(res.ok&&result.success){
+      form.reset();
+      applyConfig();
+      step=1;
+      render();
+      showMsg('Thank you! Your ReachCrew inquiry has been submitted.','success');
+      nextBtn.classList.add('hidden');
+      backBtn.classList.add('hidden');
+      submitBtn.classList.add('hidden');
+      setTimeout(()=>{
+        if(backdrop.classList.contains('open'))closeForm();
+        nextBtn.classList.remove('hidden');
+        backBtn.classList.remove('hidden');
+        submitBtn.classList.remove('hidden');
+        clearMsg();
+      },4500);
+    }else{
+      showMsg(result.message||'We could not submit your form. Please try again.','error');
+    }
+  }catch(err){
+    showMsg('We could not reach the form service. Check your internet connection and try again.','error');
+  }finally{
+    submitBtn.disabled=false;
+    submitBtn.textContent='Submit inquiry ↗';
+  }
+});
 const menu=document.getElementById('menu'),nav=document.getElementById('navLinks');menu.addEventListener('click',()=>{const open=nav.classList.toggle('open');menu.setAttribute('aria-expanded',String(open))});nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('open');menu.setAttribute('aria-expanded','false')}));document.getElementById('year').textContent=new Date().getFullYear();
-</script></body></html>
+</script>
+<script src="https://web3forms.com/client/script.js" async defer></script>
+</body></html>
