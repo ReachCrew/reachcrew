@@ -60,8 +60,8 @@ form.addEventListener('submit',async e=>{
     return;
   }
 
-  if(!WEB3FORMS_ACCESS_KEY||WEB3FORMS_ACCESS_KEY.includes('YOUR_REACHCREW')){
-    showMsg('Add your ReachCrew Web3Forms access key in the JavaScript near the bottom of this file before testing submissions.','error');
+  if(!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY === 'PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE'){
+    showMsg('Add your real ReachCrew Web3Forms access key in the JavaScript before testing submissions.','error');
     return;
   }
   submitBtn.disabled=true;
