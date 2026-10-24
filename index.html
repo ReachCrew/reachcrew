@@ -75,11 +75,30 @@ form.addEventListener('submit',async e=>{
     const res=await fetch('https://api.web3forms.com/submit',{method:'POST',body:data,headers:{Accept:'application/json'}});
     const result=await res.json();
     if(res.ok&&result.success){
+      // Email was accepted by Web3Forms. Send the same inquiry to the ReachCrew Telegram Worker.
+      // The Web3Forms submission happens first so its hCaptcha validation remains in place.
+      const telegramData = Object.fromEntries(new FormData(form).entries());
+      let telegramSent = false;
+      try {
+        const telegramRes = await fetch('https://wandering-salad-8281.reachcrew-bb1.workers.dev', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(telegramData)
+        });
+        const telegramResult = await telegramRes.json();
+        telegramSent = telegramRes.ok && telegramResult.success === true;
+      } catch (telegramError) {
+        telegramSent = false;
+      }
+
       form.reset();
       applyConfig();
       step=1;
       render();
-      showMsg('Thank you! Your ReachCrew inquiry has been submitted.','success');
+      showMsg(telegramSent
+        ? 'Thank you! Your ReachCrew inquiry was sent by email and Telegram.'
+        : 'Your inquiry was submitted by email, but the Telegram notification failed. Please check the Cloudflare Worker.',
+        telegramSent ? 'success' : 'error');
       nextBtn.classList.add('hidden');
       backBtn.classList.add('hidden');
       submitBtn.classList.add('hidden');
