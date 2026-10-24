@@ -95,10 +95,12 @@ form.addEventListener('submit',async e=>{
       applyConfig();
       step=1;
       render();
-      showMsg(telegramSent
-        ? 'Thank you! Your ReachCrew inquiry was sent by email and Telegram.'
-        : 'Your inquiry was submitted by email, but the Telegram notification failed. Please check the Cloudflare Worker.',
-        telegramSent ? 'success' : 'error');
+      if (!telegramSent) {
+        console.warn('ReachCrew Telegram notification failed.');
+      }
+
+      // Keep the confirmation simple and professional for the person submitting the form.
+      showMsg('Thank you! Your inquiry has been submitted successfully.','success');
       nextBtn.classList.add('hidden');
       backBtn.classList.add('hidden');
       submitBtn.classList.add('hidden');
